@@ -17,8 +17,8 @@ public class GamePanel extends JPanel implements ActionListener{
 	public static final int NUMBER_OF_UNITS = (WIDTH * HEIGHT) / (UNIT_SIZE * UNIT_SIZE);
 
 	// hold x and y coordinates for body parts of the snake
-	final int x[] = new int[NUMBER_OF_UNITS];
-	final int y[] = new int[NUMBER_OF_UNITS];
+	private int x[] = new int[NUMBER_OF_UNITS];
+	private int y[] = new int[NUMBER_OF_UNITS];
 	
 	// initial length of the snake
 	public int length = 5;
@@ -36,9 +36,16 @@ public class GamePanel extends JPanel implements ActionListener{
 		this.setBackground(Color.DARK_GRAY);
 		this.setFocusable(true);
 		this.addKeyListener(new MyKeyAdapter());
+		this.addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	            if (e.getKeyCode() == KeyEvent.VK_ENTER && !running) {
+	                restartGame();
+	            }
+	        }
+	    });
 		play();
-	}	
-	
+	}
 	public void play() {
 		addFood();
 		running = true;
@@ -109,14 +116,14 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	
 	public void checkHit() {
-		// check if head run into its body
+		// hitac u telo
 		for (int i = length; i > 0; i--) {
 			if (x[0] == x[i] && y[0] == y[i]) {
 				running = false;
 			}
 		}
 		
-		// check if head run into walls
+		// hitac u zid
 		if (x[0] < 0 || x[0] > WIDTH || y[0] < 0 || y[0] > HEIGHT) {
 			running = false;
 		}
@@ -130,14 +137,15 @@ public class GamePanel extends JPanel implements ActionListener{
 		graphics.setColor(Color.red);
 		graphics.setFont(new Font("Sans serif", Font.ROMAN_BASELINE, 50));
 		FontMetrics metrics = getFontMetrics(graphics.getFont());
-		graphics.drawString("Game Over", (WIDTH - metrics.stringWidth("Game Over")) / 2, HEIGHT / 2);
-		
+		graphics.drawString("Game Over", (WIDTH - metrics.stringWidth("Game Over")) / 2, HEIGHT / 3);
 		graphics.setColor(Color.white);
 		graphics.setFont(new Font("Sans serif", Font.ROMAN_BASELINE, 25));
 		metrics = getFontMetrics(graphics.getFont());
 		graphics.drawString("Score: " + foodEaten, (WIDTH - metrics.stringWidth("Score: " + foodEaten)) / 2, graphics.getFont().getSize());
-
-	}
+		graphics.setFont(new Font("Sans serif", Font.ROMAN_BASELINE, 30));
+		metrics = getFontMetrics(graphics.getFont());
+		graphics.drawString("Press enter to restart", (WIDTH - metrics.stringWidth("Press Enter to restart")) / 2, HEIGHT / 2);
+		}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -179,44 +187,13 @@ public class GamePanel extends JPanel implements ActionListener{
 			}
 		}
 	}
+	public void restartGame() {
+        running = true;
+        length = 5;
+        foodEaten = 0;
+        direction = 'D';
+        x = new int[NUMBER_OF_UNITS];
+        y = new int[NUMBER_OF_UNITS];
+        play();
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
