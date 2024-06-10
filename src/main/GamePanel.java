@@ -9,19 +9,17 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements ActionListener{
 
-	private static final long serialVersionUID = 1L;
-	
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 500;
 	public static final int UNIT_SIZE = 20;
 	public static final int NUMBER_OF_UNITS = (WIDTH * HEIGHT) / (UNIT_SIZE * UNIT_SIZE);
 
-	// hold x and y coordinates for body parts of the snake
-	private int x[] = new int[NUMBER_OF_UNITS];
-	private int y[] = new int[NUMBER_OF_UNITS];
+	// koordinate tela zmije
+	public int x[] = new int[NUMBER_OF_UNITS];
+	public int y[] = new int[NUMBER_OF_UNITS];
 	
 	// initial length of the snake
-	public int length = 5;
+	public int length = 2;
 	public int foodEaten;
 	public int foodX;
 	public int foodY;
@@ -62,7 +60,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	
 	public void move() {
 		for (int i = length; i > 0; i--) {
-			// shift the snake one unit to the desired direction to create a move
+			// pomera zmiju za jedno polje u zeljenom pravcu
 			x[i] = x[i-1];
 			y[i] = y[i-1];
 		}
@@ -189,7 +187,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	public void restartGame() {
         running = true;
-        length = 5;
+        length = 2;
         foodEaten = 0;
         direction = 'D';
         x = new int[NUMBER_OF_UNITS];
