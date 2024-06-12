@@ -3,13 +3,11 @@ package main;
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame{
-
-	private static final long serialVersionUID = 1L;
-
+	
 	public GameFrame() {
 		GamePanel panel = new GamePanel();
 		this.add(panel);
-		this.setTitle("snake");
+		this.setTitle("Zmija");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.pack();

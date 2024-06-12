@@ -9,10 +9,11 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements ActionListener{
 
-	public static final int WIDTH = 500;
-	public static final int HEIGHT = 500;
+	public static final int WIDTH = 750;
+	public static final int HEIGHT = 750;
 	public static final int UNIT_SIZE = 20;
 	public static final int NUMBER_OF_UNITS = (WIDTH * HEIGHT) / (UNIT_SIZE * UNIT_SIZE);
+	public static final int SPEED_INCREASE_FACTOR= 2;
 
 	// koordinate tela zmije
 	public int x[] = new int[NUMBER_OF_UNITS];
@@ -20,9 +21,9 @@ public class GamePanel extends JPanel implements ActionListener{
 	
 	// initial length of the snake
 	public int length = 2;
-	public int foodEaten;
-	public int foodX;
-	public int foodY;
+	public int jabukaEaten;
+	public int jabukaX;
+	public int jabukaY;
 	public char direction = 'D';
 	public boolean running = false;
 	Random random;
@@ -48,8 +49,8 @@ public class GamePanel extends JPanel implements ActionListener{
 		addFood();
 		running = true;
 		
-		timer = new Timer(80, this);
-		timer.start();	
+		timer = new Timer(90, this);
+		timer.start();
 	}
 	
 	@Override
@@ -77,18 +78,19 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	
 	public void checkFood() {
-		if(x[0] == foodX && y[0] == foodY) {
+		if(x[0] == jabukaX && y[0] == jabukaY) {
 			length++;
-			foodEaten++;
+			jabukaEaten++;
 			addFood();
+			timer.setDelay(timer.getDelay() - SPEED_INCREASE_FACTOR);
 		}
 	}
 	
 	public void draw(Graphics graphics) {
 		
 		if (running) {
-			graphics.setColor(new Color(210, 115, 90));
-			graphics.fillOval(foodX, foodY, UNIT_SIZE, UNIT_SIZE);
+			graphics.setColor(new Color(255, 0, 0));
+			graphics.fillOval(jabukaX, jabukaY, UNIT_SIZE, UNIT_SIZE);
 			
 			graphics.setColor(Color.white);
 			graphics.fillRect(x[0], y[0], UNIT_SIZE, UNIT_SIZE);
@@ -101,7 +103,7 @@ public class GamePanel extends JPanel implements ActionListener{
 			graphics.setColor(Color.white);
 			graphics.setFont(new Font("Sans serif", Font.ROMAN_BASELINE, 25));
 			FontMetrics metrics = getFontMetrics(graphics.getFont());
-			graphics.drawString("Score: " + foodEaten, (WIDTH - metrics.stringWidth("Score: " + foodEaten)) / 2, graphics.getFont().getSize());
+			graphics.drawString("Score: " + jabukaEaten, (WIDTH - metrics.stringWidth("Score: " + jabukaEaten)) / 2, graphics.getFont().getSize());
 		
 		} else {
 			gameOver(graphics);
@@ -109,8 +111,8 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	
 	public void addFood() {
-		foodX = random.nextInt((int)(WIDTH / UNIT_SIZE))*UNIT_SIZE;
-		foodY = random.nextInt((int)(HEIGHT / UNIT_SIZE))*UNIT_SIZE;
+		jabukaX = random.nextInt((int)(WIDTH / UNIT_SIZE))*UNIT_SIZE;
+		jabukaY= random.nextInt((int)(HEIGHT / UNIT_SIZE))*UNIT_SIZE;
 	}
 	
 	public void checkHit() {
@@ -139,7 +141,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		graphics.setColor(Color.white);
 		graphics.setFont(new Font("Sans serif", Font.ROMAN_BASELINE, 25));
 		metrics = getFontMetrics(graphics.getFont());
-		graphics.drawString("Score: " + foodEaten, (WIDTH - metrics.stringWidth("Score: " + foodEaten)) / 2, graphics.getFont().getSize());
+		graphics.drawString("Score: " + jabukaEaten, (WIDTH - metrics.stringWidth("Score: " + jabukaEaten)) / 2, graphics.getFont().getSize());
 		graphics.setFont(new Font("Sans serif", Font.ROMAN_BASELINE, 30));
 		metrics = getFontMetrics(graphics.getFont());
 		graphics.drawString("Press enter to restart", (WIDTH - metrics.stringWidth("Press Enter to restart")) / 2, HEIGHT / 2);
@@ -188,7 +190,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	public void restartGame() {
         running = true;
         length = 2;
-        foodEaten = 0;
+        jabukaEaten = 0;
         direction = 'D';
         x = new int[NUMBER_OF_UNITS];
         y = new int[NUMBER_OF_UNITS];

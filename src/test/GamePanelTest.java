@@ -25,18 +25,14 @@ public class GamePanelTest {
         JFrame frame = new JFrame();
         frame.add(gamePanel);
         frame.setVisible(true);
-        // Wait for the EDT to complete
         waitForEventDispatchThread();
     }
 
-    // Helper method to wait for the EDT to complete
     private void waitForEventDispatchThread() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
         SwingUtilities.invokeLater(() -> {
-            // Signal that the EDT has completed
             latch.countDown();
         });
-        // Wait for the latch to be counted down
         latch.await(2, TimeUnit.SECONDS);
     }
     
@@ -45,8 +41,8 @@ public class GamePanelTest {
         GamePanel gamePanel = new GamePanel();
         gamePanel.addFood();
 
-        assertNotNull(gamePanel.foodX);
-        assertNotNull(gamePanel.foodY);
+        assertNotNull(gamePanel.jabukaX);
+        assertNotNull(gamePanel.jabukaY);
     }
     
 
@@ -62,7 +58,7 @@ public class GamePanelTest {
 
     @Test
     public void testInitialFoodEaten() {
-        assertEquals(0, gamePanel.foodEaten);
+        assertEquals(0, gamePanel.jabukaEaten);
     }
 
     @Test
@@ -77,8 +73,8 @@ public class GamePanelTest {
     
     @Test
     public void testPanelSize() {
-        assertEquals(GamePanel.WIDTH, 500);
-        assertEquals(GamePanel.HEIGHT, 500);
+        assertEquals(GamePanel.WIDTH, 750);
+        assertEquals(GamePanel.HEIGHT, 750);
     }
     
     @Test
@@ -86,7 +82,7 @@ public class GamePanelTest {
         GamePanel gamePanel = new GamePanel();
         gamePanel.running = false;
         gamePanel.length = 5;
-        gamePanel.foodEaten = 10;
+        gamePanel.jabukaEaten = 10;
         gamePanel.direction = 'U';
         gamePanel.x[0] = 100;
         gamePanel.y[0] = 100;
@@ -95,7 +91,7 @@ public class GamePanelTest {
 
         assertTrue(gamePanel.running);
         assertEquals(2, gamePanel.length);
-        assertEquals(0, gamePanel.foodEaten);
+        assertEquals(0, gamePanel.jabukaEaten);
         assertEquals('D', gamePanel.direction);
         assertArrayEquals(new int[GamePanel.NUMBER_OF_UNITS], gamePanel.x);
         assertArrayEquals(new int[GamePanel.NUMBER_OF_UNITS], gamePanel.y);
